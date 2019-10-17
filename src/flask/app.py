@@ -41,7 +41,8 @@ def enroll():
     return 'hello world...'
 
 if __name__ == ("__main__"):
-  # docker
+  app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+  # docker : run port 8080
   # app.run(debug=True, host='0.0.0.0', port=5090)
   # other
   app.run(debug=True)
