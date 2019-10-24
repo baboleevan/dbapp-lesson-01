@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            Students
+        </title>
+    </head>
+    <body>
+        Hello world
+        <br />
+        {{ table }}
+        <h1>학생 등록</h1>
+        <form method="POST" action="/register">
+            <input type="number" name="id" placeholder="Your ID" />
+            <input type="text" name="name" placeholder="Your Name" />
+            <input type="email" name="email" placeholder="Your Email" />
+            <button type="submit">등록하기</button>
+        </form>
+    </body>
+</html>
