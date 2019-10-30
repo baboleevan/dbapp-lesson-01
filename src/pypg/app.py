@@ -18,7 +18,7 @@ pg_local = {
     #, 'port' : '54321'
 }
 
-db_connector = pg_local
+db_connector = docker_in
 
 connect_string = "host={host} user={user} dbname={dbname} password={password}".format(
     **db_connector)
@@ -63,5 +63,9 @@ def create_table(table_name):
 def main():
     print("pg!")
     read_dbs()
-    create_table("test")
+    create_table("student")
     read_tables()
+
+
+if __name__ == ("__main__"):
+    main()

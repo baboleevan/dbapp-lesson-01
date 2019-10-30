@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            Students
+        </title>
+    </head>
+    <body>             
+        <h1>등록 명단</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>
+                학번
+              </th>
+              <th>
+                이름
+              </th>
+              <th>
+                이메일
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+              <tr>
+                <td>
+                  {{ student['id'] }}
+                </td>
+                <td>
+                  {{ student['name'] }}
+                </td>
+                <td>
+                  {{ student['email'] }}
+                </td>
+              </tr>
+            {% endfor %}            
+          </tbody>
+        </table>
+    </body>
+</html>

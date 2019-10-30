@@ -1,4 +1,5 @@
 import psycopg2 as pg
+import psycopg2.extras
 
 # docker inside
 docker_in = {
@@ -18,7 +19,7 @@ pg_local = {
     #, 'port' : '54321'
 }
 
-db_connector = pg_local
+db_connector = docker_in
 
 connect_string = "host={host} user={user} dbname={dbname} password={password}".format(
     **db_connector)
@@ -79,6 +80,27 @@ def insert(table_name, sid, name, email):
         print(e)
         return -1
     return 0
+
+def read_students():
+    sql = f'''SELECT id, name, email FROM student;
+           '''
+    print(sql)
+    try:
+        conn = pg.connect(connect_string) # DB연결(로그인)
+        # cur = conn.cursor() # DB 작업할 지시자 정하기
+        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cur.execute(sql) # sql 문을 실행
+        result = cur.fetchall()
+        print(type(result))
+        for row in result:
+            print(type(row), row)        
+        # DB에 저장하고 마무리
+        conn.commit()
+        conn.close()
+        return result
+    except Exception as e:
+        print(e)
+        return []            
 
 def main():
     print("pg!")
