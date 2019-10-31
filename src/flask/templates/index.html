@@ -1,21 +1,118 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>
-            Students
-        </title>
-    </head>
-    <body>
-        Hello world
-        <br />
-        {{ table }}
-        <h1>학생 등록</h1>
-        <form method="POST" action="/register">
-            <input type="number" name="id" placeholder="Your ID" />
-            <input type="text" name="name" placeholder="Your Name" />
-            <input type="email" name="email" placeholder="Your Email" />
-            <button type="submit">등록하기</button>
-        </form>
-    </body>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>
+        Students
+    </title>
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #444444;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script>
+        function reloadStudent() {
+            $.ajax({
+                url: "/students",
+                cache: false
+            }).done(data => {
+                students = JSON.parse(data)
+                console.log(typeof (students), students)
+                let tBodyHtml = ''
+                for (let student of students) {
+                    tBodyHtml += `<tr>
+                        <td>${student['id']}</td>
+                        <td>${student['name']}</td>
+                        <td>${student['email']}</td>
+                        </tr>
+                        `
+                }
+                $("#student-table tbody").append(tBodyHtml)
+            })
+        }
+        $(document).ready(async () => {
+            $("#title-changer").click(reloadStudent)
+            $("#student-register").submit((e) => {
+                e.preventDefault()
+                let formData = {
+                    "id": e.target.id.value,
+                    "name": e.target.name.value,
+                    "email": e.target.email.value
+                }
+                console.log(formData)
+
+                $.ajax({
+                    type: "POST",
+                    url: "/register-json",
+                    cache: false,
+                    data: JSON.stringify(formData),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: res => {
+                        console.log(res)
+                        reloadStudent()
+                    }
+                })                
+
+                // send Form data                
+                // let formData = new FormData($("form")[0])
+                // $.ajax({
+                //     type: "POST",
+                //     url: "/register",
+                //     cache: false,
+                //     processData: false,
+                //     contentType: false,
+                //     data: formData,
+                //     success: res => {
+                //         console.log(res)
+                //     }
+                // })                
+            })
+        })
+    </script>
+</head>
+
+<body>
+    Hello world
+    <br />
+    {{ table }}
+    <h1>학생 등록</h1>
+    <form id="student-register" method="POST" action="/register">
+        <input type="number" name="id" placeholder="Your ID" />
+        <input type="text" name="name" placeholder="Your Name" />
+        <input type="email" name="email" placeholder="Your Email" />
+        <button type="submit">등록하기</button>
+    </form>
+    <button id="title-changer">학생 갱신</button>
+    <div>
+        <table id="student-table">
+            <thead>
+                <tr>
+                    <th>
+                        학번
+                    </th>
+                    <th>
+                        이름
+                    </th>
+                    <th>
+                        이메일
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+
 </html>

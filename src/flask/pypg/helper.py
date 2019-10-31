@@ -90,10 +90,7 @@ def read_students():
         # cur = conn.cursor() # DB 작업할 지시자 정하기
         cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cur.execute(sql) # sql 문을 실행
-        result = cur.fetchall()
-        print(type(result))
-        for row in result:
-            print(type(row), row)        
+        result = cur.fetchall()         
         # DB에 저장하고 마무리
         conn.commit()
         conn.close()
