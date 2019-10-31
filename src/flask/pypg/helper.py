@@ -1,4 +1,5 @@
 import psycopg2 as pg
+import psycopg2.extras
 
 # docker inside
 docker_in = {
@@ -79,6 +80,21 @@ def insert(table_name, sid, name, email):
         print(e)
         return -1
     return 0
+
+def students_list():
+    sql = f"""SELECT id, name, email FROM student
+    """
+    try:
+        conn = pg.connect(connect_string)
+        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cur.execute(sql)
+        result = cur.fetchall()
+        conn.close()
+        return result
+    except Exception as e:
+        print(e)
+        return []
+    
 
 def main():
     print("pg!")
