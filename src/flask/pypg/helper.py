@@ -63,9 +63,10 @@ def create_table(table_name):
         print(e)
 
 def insert(table_name, sid, name, email):
-    sql = f'''INSERT INTO {table_name} 
-              VALUES ({sid}, \'{name}\', \'{email}\');
-           '''
+    sql = f"""INSERT INTO {table_name} 
+              VALUES ({sid}, '{name}', '{email}');
+           """
+    # INSERT INTO student VALUES (1234, '사람',)
     print(sql)
     try:
         conn = pg.connect(connect_string) # DB연결(로그인)
@@ -79,6 +80,22 @@ def insert(table_name, sid, name, email):
         print(e)
         return -1
     return 0
+
+def students_list():
+    sql = f"""SELECT id, name, email
+                FROM student
+    """
+    try:
+        conn = pg.connect(connect_string)
+        cur = conn.cursor()
+        cur.execute(sql)
+        result = cur.fetchall()
+        conn.close()
+        return result
+    except Exception as e:
+        print(e)
+        return []
+        
 
 def main():
     print("pg!")

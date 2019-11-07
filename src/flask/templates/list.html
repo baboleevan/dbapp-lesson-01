@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            Students
+        </title>
+    </head>
+    <body>
+        <h1>학생 명단</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>학번</th>
+                    <th>이름</th>
+                    <th>email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in students %}
+                <tr>
+                    <td>{{row[0]}}</td>
+                    <td>{{row[1]}}</td>
+                    <td>{{row[2]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

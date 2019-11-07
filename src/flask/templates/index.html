@@ -5,6 +5,35 @@
         <title>
             Students
         </title>
+        <script
+  src="http://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function () {
+                $("#refresh-list").click(()=>{
+                    const param = {
+                        url: "/list-rest",
+                        cache: false                        
+                    }
+                    $.ajax(param)                 
+                    .done(data => {
+                        console.log(data)
+                        students = JSON.parse(data)
+                        console.log(students)
+                        let tBodyHtml = ''
+                        for(let row of students){
+                            tBodyHtml += `<tr>
+                               <td>${row['id']}</td>
+                               <td>${row['name']}</td>
+                               <td>${row[2]}</td>
+                            </tr>`
+                        }
+                        $('table tbody').html(tBodyHtml)
+                    })
+                })
+            })
+        </script>
     </head>
     <body>
         Hello world
@@ -17,5 +46,18 @@
             <input type="email" name="email" placeholder="Your Email" />
             <button type="submit">등록하기</button>
         </form>
+        <h1>학생 명단</h1>
+        <button id="refresh-list">새로고침</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>학번</th>
+                    <th>이름</th>
+                    <th>email</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </body>
 </html>
