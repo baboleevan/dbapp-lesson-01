@@ -47,6 +47,6 @@ def students_list_rest():
 
 if __name__ == ("__main__"):
   # docker
-  # app.run(debug=True, host='0.0.0.0', port=5090)
+  app.run(debug=True, host='0.0.0.0', port=5090)
   # other
-  app.run(debug=True)
+  # app.run(debug=True)

@@ -19,7 +19,7 @@ pg_local = {
     #, 'port' : '54321'
 }
 
-db_connector = pg_local
+db_connector = docker_in
 
 connect_string = "host={host} user={user} dbname={dbname} password={password}".format(
     **db_connector)
