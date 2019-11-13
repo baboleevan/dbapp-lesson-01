@@ -1,4 +1,5 @@
 import psycopg2 as pg
+import psycopg2.extras
 
 # docker inside
 docker_in = {
@@ -87,9 +88,13 @@ def students_list():
     """
     try:
         conn = pg.connect(connect_string)
-        cur = conn.cursor()
+        # Normal
+        #cur = conn.cursor()
+        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)        
         cur.execute(sql)
         result = cur.fetchall()
+        print(f"type of row {type(result[0])}")
+        print(result[0])
         conn.close()
         return result
     except Exception as e:

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from pypg import helper
+from pprint import pprint
 # from pypg.helper import read_tables
 
 app = Flask(__name__)
@@ -15,9 +16,17 @@ def register():
     sid = request.form.get("id")
     name = request.form.get("name")
     email = request.form.get("email")
-    print(f"{sid}, {name}, {email}")
     print(helper.insert("student", sid, name, email))
-    return redirect('/')
+    pprint(request.__dict__)
+    return "OK"
+
+@app.route("/register-json", methods=["POST"])
+def register_json():
+    import json #맨 위
+    req = request.get_json()
+    helper.insert("student", req['id'], req['name'], req['email'])
+    pprint(request.__dict__ )
+    return "OK"
 
 @app.route('/list')
 def student_list():

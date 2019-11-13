@@ -11,6 +11,41 @@
   crossorigin="anonymous"></script>
         <script>
             $(document).ready(function () {
+                // AJAX POST
+                $("#register").submit((e) => {
+                    e.preventDefault()
+                    let formData = {
+                        "id": e.target.id.value,
+                        "name": e.target.name.value,
+                        "email": e.target.email.value
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/register-json",
+                        cache: false,
+                        data: JSON.stringify(formData),
+                        contentType: "application/json",
+                        success: res => {
+                            console.log(res)
+                        }
+                    })
+                    /*
+                    let formData = new FormData($("form")[0])
+                    $.ajax({
+                        type: "POST",
+                        url: "/register",
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        success: function (res) {
+                            console.log(res)
+                        }
+                    })
+                    */
+                })
+
+                // AJAX GET
                 $("#refresh-list").click(()=>{
                     const param = {
                         url: "/list-rest",
@@ -24,9 +59,9 @@
                         let tBodyHtml = ''
                         for(let row of students){
                             tBodyHtml += `<tr>
-                               <td>${row['id']}</td>
-                               <td>${row['name']}</td>
-                               <td>${row[2]}</td>
+                               <td>${row["id"]}</td>
+                               <td>${row["name"]}</td>
+                               <td>${row["email"]}</td>
                             </tr>`
                         }
                         $('table tbody').html(tBodyHtml)
@@ -40,7 +75,7 @@
         <br />
         {{ table }}
         <h1>학생 등록</h1>
-        <form method="POST" action="/register">
+        <form id="register">
             <input type="number" name="id" placeholder="Your ID" />
             <input type="text" name="name" placeholder="Your Name" />
             <input type="email" name="email" placeholder="Your Email" />
